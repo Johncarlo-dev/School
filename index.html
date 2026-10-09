@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchoovaMate | Student Task Manager</title>
+  <link rel="stylesheet" href="SchoovaStyle.css">
+  <script src="SchoovaScript.js" defer></script>
+</head>
+<body>
+  <section id="authPage" class="auth-page">
+    <div class="auth-card">
+      <div class="brand">
+        <div class="logo-mark">S</div>
+        <div><h1>SchoovaMate</h1><p>Your school life, organized.</p></div>
+      </div>
+      <div class="auth-heading">
+        <span class="eyebrow">WELCOME BACK</span>
+        <h2>Sign in to continue</h2>
+        <p>Choose your account type and enter your demo details.</p>
+      </div>
+      <div class="role-selector">
+        <button type="button" id="studentRoleBtn" class="role-btn active">🎓 Student</button>
+        <button type="button" id="teacherRoleBtn" class="role-btn">👩‍🏫 Teacher</button>
+      </div>
+      <form id="loginForm">
+        <label for="loginIdentifier" id="identifierLabel">Student LRN</label>
+        <input id="loginIdentifier" type="text" placeholder="Enter your demo LRN" autocomplete="username" required>
+        <label for="loginPassword">Password</label>
+        <div class="password-wrap">
+          <input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+          <button type="button" id="passwordToggle" class="password-toggle" aria-label="Show password">👁</button>
+        </div>
+        <label class="remember-option"><input type="checkbox" id="rememberLogin"><span>Remember my demo ID on this device</span></label>
+        <p id="loginError" class="error-message" role="alert"></p>
+        <button type="submit" id="loginSubmit" class="primary-btn">Sign In</button>
+      </form>
+      <div class="demo-info">
+        <h3>Demo accounts</h3>
+        <p><strong>Student</strong></p><p>LRN: <code>123456789012</code></p><p>Password: <code>Student123!</code></p>
+        <hr>
+        <p><strong>Teacher</strong></p><p>ID: <code>123456789013</code></p><p>Password: <code>Teacher123!</code></p>
+        <button type="button" id="fillDemoBtn" class="text-btn">Fill demo account</button>
+      </div>
+      <p class="auth-footer">SchoovaMate · School productivity demo</p>
+    </div>
+  </section>
+
+  <section id="dashboardPage" class="dashboard hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><div class="logo-mark small-logo">S</div><div><strong>SchoovaMate</strong><small>Learning companion</small></div></div>
+      <div class="sidebar-user"><div class="avatar" id="userAvatar">S</div><div><strong id="sidebarUserName">Student</strong><small id="sidebarUserRole">Student</small></div></div>
+      <p class="nav-label">MENU</p>
+      <nav class="navigation">
+        <button class="nav-btn active" data-view="overview">▦ Overview</button>
+        <button class="nav-btn" data-view="tasks">✓ My Tasks <span id="taskNavCount" class="nav-count">0</span></button>
+        <button class="nav-btn" data-view="announcements">▤ Announcements</button>
+      </nav>
+      <div class="sidebar-bottom"><p>Stay organized. Keep learning.</p><button type="button" id="logoutBtn" class="logout-btn">↪ Log Out</button></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><span class="eyebrow">SCHOOL WORKSPACE</span><h2 id="headerPageTitle">Overview</h2></div>
+        <div class="topbar-user"><div><strong id="headerUserName">Student</strong><small id="headerUserRole">Student account</small></div><div class="avatar header-avatar" id="headerAvatar">S</div></div>
+      </header>
+
+      <section id="overviewView" class="content-view">
+        <div class="welcome-banner">
+          <div><span class="eyebrow">YOUR PERSONAL WORKSPACE</span><h1 id="welcomeHeading">Welcome back!</h1><p>Plan your work, track your progress, and stay on top of school.</p><p id="currentDate" class="date-label"></p></div>
+          <div class="welcome-symbol">✦</div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon purple">▤</span><p>Total tasks</p><h2 id="totalTasks">0</h2><small>All your tasks</small></article>
+          <article class="stat-card"><span class="stat-icon orange">◷</span><p>Pending tasks</p><h2 id="pendingTasks">0</h2><small>Still to complete</small></article>
+          <article class="stat-card"><span class="stat-icon green">✓</span><p>Completed tasks</p><h2 id="completedTasks">0</h2><small>Work finished</small></article>
+        </div>
+        <div class="section-heading"><div><h2>Recent tasks</h2><p>Keep an eye on what's coming up.</p></div><button type="button" class="secondary-btn" data-go="tasks">View all tasks →</button></div>
+        <div id="recentTasks" class="task-list"></div>
+        <div class="section-heading announcement-heading"><div><h2>Latest announcements</h2><p>Important updates for your schoolwork.</p></div><button type="button" class="secondary-btn" data-go="announcements">View all →</button></div>
+        <div id="recentAnnouncements" class="announcement-list"></div>
+      </section>
+
+      <section id="tasksView" class="content-view hidden">
+        <div class="section-heading page-heading"><div><h1>My Tasks</h1><p>Add schoolwork, set deadlines, and track completion.</p></div><button type="button" id="addTaskBtn" class="primary-btn">+ Add Task</button></div>
+        <div class="filters"><input type="search" id="taskSearch" placeholder="Search tasks or subjects..."><select id="taskFilter"><option value="all">All tasks</option><option value="pending">Pending</option><option value="completed">Completed</option></select></div>
+        <form id="taskForm" class="form-card hidden">
+          <h2 id="taskFormHeading">Add a new task</h2>
+          <label for="taskTitle">Task title</label><input id="taskTitle" type="text" placeholder="e.g. Research introduction" required>
+          <label for="taskSubject">Subject</label><input id="taskSubject" type="text" placeholder="e.g. Practical Research" required>
+          <label for="taskDueDate">Due date</label><input id="taskDueDate" type="date" required>
+          <label for="taskPriority">Priority</label><select id="taskPriority"><option value="Normal">Normal</option><option value="High">High</option><option value="Low">Low</option></select>
+          <div class="form-actions"><button type="submit" class="primary-btn">Save Task</button><button type="button" id="cancelTaskBtn" class="secondary-btn">Cancel</button></div>
+        </form>
+        <div id="allTasks" class="task-list"></div>
+      </section>
+
+      <section id="announcementsView" class="content-view hidden">
+        <div class="section-heading page-heading"><div><h1>Announcements</h1><p>Read and share important school updates.</p></div><button type="button" id="addAnnouncementBtn" class="primary-btn hidden">+ Post Announcement</button></div>
+        <form id="announcementForm" class="form-card hidden">
+          <h2>New announcement</h2>
+          <label for="announcementTitle">Announcement title</label><input id="announcementTitle" type="text" placeholder="Enter a title" required>
+          <label for="announcementMessage">Message</label><textarea id="announcementMessage" rows="4" placeholder="Write the announcement..." required></textarea>
+          <div class="form-actions"><button type="submit" class="primary-btn">Publish</button><button type="button" id="cancelAnnouncementBtn" class="secondary-btn">Cancel</button></div>
+        </form>
+        <div id="allAnnouncements" class="announcement-list"></div>
+      </section>
+    </main>
+  </section>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
